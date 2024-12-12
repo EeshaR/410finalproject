@@ -9,6 +9,7 @@ def read_csv(file_path):
     return pd.read_csv(file_path)
 
 # Function to preprocess data
+# referenced - https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html?utm_source=chatgpt.com
 def preprocess_data(data):
     # Cleaning data and filling missing values
     data = data.fillna("")
@@ -44,6 +45,7 @@ def get_tfidf_results(vectorizer, tfidf_matrix, query, data):
     return data.iloc[top_indices]
 
 # Function to query OpenAI
+# referenced - https://cookbook.openai.com/examples/how_to_stream_completions?utm_source=chatgpt.com
 def query_openai(prompt, bm25_context, tfidf_context, api_key):
     openai.api_key = api_key
     combined_context = f"BM25 Results:\n{bm25_context}\nTF-IDF Results:\n{tfidf_context}"
@@ -91,7 +93,7 @@ if __name__ == "__main__":
     import sys
 
     file_path = "course-catalog.csv"
-    openai_api_key = "OUR_API_KEY"
+    openai_api_key = "OUR_API_KEY" # insert our api key into this 
     
     if len(sys.argv) != 1:
         print("Usage: python main.py")
@@ -107,3 +109,4 @@ if __name__ == "__main__":
     
     # Start interactive querying
     interactive_query(data, vectorizer, tfidf_matrix, bm25, openai_api_key)
+    
