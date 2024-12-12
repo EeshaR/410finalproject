@@ -17,7 +17,7 @@ def preprocess_data(data):
     data["Prerequisites"] = data["Prerequisites"].fillna("").str.lower()
     return data
 
-
+# referenced - https://dev.to/dcs_ink/how-to-set-up-the-openai-api-with-python-and-flask-2120?utm_source=chatgpt.com
 def filter_by_prerequisites(data, prerequisite_query):
     prerequisite_query = prerequisite_query.lower()
     filtered_data = data[data["Prerequisites"].str.contains(prerequisite_query, na=False)]
@@ -60,6 +60,7 @@ def query_openai(prompt, bm25_context, tfidf_context, api_key):
     return response["choices"][0]["message"]["content"]
 
 # Load data and initialize models
+# referenced - https://cookbook.openai.com/examples/how_to_stream_completions?utm_source=chatgpt.com
 file_path = "course-catalog.csv"
 data = pd.read_csv(file_path)
 data = preprocess_data(data)
@@ -71,6 +72,7 @@ tokenized_corpus = [doc.split() for doc in data["Combined_Info"]]
 def index():
     return render_template('index.html')
 
+# referenced - https://community.openai.com/t/chat-history-with-functions-enabled-example/322210?utm_source=chatgpt.com
 @app.route('/query', methods=['POST'])
 def query():
     user_query = request.json['query']
@@ -128,8 +130,3 @@ def query():
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-
-
-
-
