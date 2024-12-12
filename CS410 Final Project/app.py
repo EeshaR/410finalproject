@@ -74,28 +74,84 @@ def index():
 @app.route('/query', methods=['POST'])
 def query():
     user_query = request.json['query']
+    prerequisite_input = ""
 
-    # Check for prerequisite filter
+    # Check if "prerequisite:" is included
     if "prerequisite:" in user_query.lower():
-        prerequisite_query = user_query.lower().split("prerequisite:")[-1].strip()
-        filtered_data = filter_by_prerequisites(data, prerequisite_query)
+        parts = user_query.lower().split("prerequisite:")
+        user_query = parts[0].strip()  # Extract query portion
+        prerequisite_input = parts[1].strip()  # Extract prerequisite portion
+
+    # If only a prerequisite is given
+    if not user_query and prerequisite_input:
+        filtered_data = filter_by_prerequisites(data, prerequisite_input)
         if filtered_data.empty:
-            return jsonify({'response': f"No courses found with prerequisite '{prerequisite_query}'."})
+            return jsonify({'response': f"No courses found with prerequisite '{prerequisite_input}'."})
         
-        # Limit the response to one or two course names
+        # Limit response to one or two course names
         courses = filtered_data["Name"].head(2).tolist()
-        return jsonify({'response': f"Courses requiring '{prerequisite_query}' as a prerequisite: {', '.join(courses)}."})
+        return jsonify({'response': f"Courses requiring '{prerequisite_input}' as a prerequisite: {', '.join(courses)}."})
+
+    # If only a query is given
+    if user_query and not prerequisite_input:
+        bm25_results = get_bm25_results(bm25, tokenized_corpus, user_query, data)
+        tfidf_results = get_tfidf_results(vectorizer, tfidf_matrix, user_query, data)
+        bm25_context = bm25_results.to_csv(index=False, header=False)
+        tfidf_context = tfidf_results.to_csv(index=False, header=False)
+        
+        openai_api_key = "key"
+        openai_response = query_openai(user_query, bm25_context, tfidf_context, openai_api_key)
+        return jsonify({'response': openai_response})
+
+    # If both query and prerequisite are provided
+    if user_query and prerequisite_input:
+        bm25_results = get_bm25_results(bm25, tokenized_corpus, user_query, data)
+        tfidf_results = get_tfidf_results(vectorizer, tfidf_matrix, user_query, data)
+        combined_results = pd.concat([bm25_results, tfidf_results]).drop_duplicates()
+
+        if combined_results.empty:
+            return jsonify({'response': f"No courses found matching preference '{user_query}'."})
+        
+        # Check if any of the courses have the given prerequisite
+        filtered_courses = combined_results[combined_results["Prerequisites"].str.contains(prerequisite_input, na=False)]
+        if filtered_courses.empty:
+            return jsonify({'response': f"None of the courses matching '{user_query}' have '{prerequisite_input}' as a prerequisite."})
+
+        # Limit response to one or two course names
+        matching_courses = filtered_courses["Name"].head(2).tolist()
+        return jsonify({
+            'response': f"Courses matching '{user_query}' with '{prerequisite_input}' as a prerequisite: {', '.join(matching_courses)}."
+        })
+
+    # If neither query nor prerequisite is provided
+    return jsonify({'response': "How can I assist you today?"})
+
+
+# @app.route('/query', methods=['POST'])
+# def query():
+#     user_query = request.json['query']
+
+#     # Check for prerequisite filter
+#     if "prerequisite:" in user_query.lower():
+#         prerequisite_query = user_query.lower().split("prerequisite:")[-1].strip()
+#         filtered_data = filter_by_prerequisites(data, prerequisite_query)
+#         if filtered_data.empty:
+#             return jsonify({'response': f"No courses found with prerequisite '{prerequisite_query}'."})
+        
+#         # Limit the response to one or two course names
+#         courses = filtered_data["Name"].head(2).tolist()
+#         return jsonify({'response': f"Courses requiring '{prerequisite_query}' as a prerequisite: {', '.join(courses)}."})
     
-    # Retrieve results using BM25 and TF-IDF
-    bm25_results = get_bm25_results(bm25, tokenized_corpus, user_query, data)
-    tfidf_results = get_tfidf_results(vectorizer, tfidf_matrix, user_query, data)
-    bm25_context = bm25_results.to_csv(index=False, header=False)
-    tfidf_context = tfidf_results.to_csv(index=False, header=False)
+#     # Retrieve results using BM25 and TF-IDF
+#     bm25_results = get_bm25_results(bm25, tokenized_corpus, user_query, data)
+#     tfidf_results = get_tfidf_results(vectorizer, tfidf_matrix, user_query, data)
+#     bm25_context = bm25_results.to_csv(index=False, header=False)
+#     tfidf_context = tfidf_results.to_csv(index=False, header=False)
 
-    openai_api_key = "OUR_API_KEY"
-    openai_response = query_openai(user_query, bm25_context, tfidf_context, openai_api_key)
+#     openai_api_key = "key"
+#     openai_response = query_openai(user_query, bm25_context, tfidf_context, openai_api_key)
 
-    return jsonify({'response': openai_response})
+#     return jsonify({'response': openai_response})
 
 
 if __name__ == "__main__":
