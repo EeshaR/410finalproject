@@ -1,6 +1,6 @@
-# 410finalproject
+# CS 410: Final Project Overview
 
-How to run the project: 
+## How to run the project: 
 
 To activate the virtual environment:
 
@@ -19,7 +19,7 @@ Then run `python app.py` to run the application.
 
 MAKE SURE TO REPLACE openai_api_key WITH THE OPENAI API KEY. 
 
-Documentation: 
+## Documentation: 
 User standpoint: The user opens our easy-to-use html site, types in a query of their choice regarding uiuc course - about what to take, pre-reqs, credits, relevancy. 
 The response is then generated for them in a timely fashion. They are free to make as many queries as they’d like. 
 
