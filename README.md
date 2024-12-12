@@ -11,13 +11,18 @@ To activate the virtual environment:
 `source venv/bin/activate`
 
 Then install the required dependencies:
+
 `pip install flask`
+
 `pip install pandas`
+
 `pip install scikit-learn`
+
 `pip install rank_bm25`
+
 `pip install openai==0.28`
 
-To remove cache if you're running into any problems, you can run: `rm -rf __pycache__`.
+To remove cache if you're running into any problems, you can run `rm -rf __pycache__`.
 Then run `python app.py` to run the application.
 
 Make sure to replace `openai_api_key` with the actual OpenAI API key so that the user can query the LLM. 
