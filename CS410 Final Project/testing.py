@@ -4,6 +4,7 @@ import pandas as pd
 from io import StringIO
 
 class TestMainFunctions(unittest.TestCase):
+    # referenced - https://andrewpwheeler.com/2022/11/02/using-io-objects-in-python-to-read-data/
     def setUp(self):
         # In-memory CSV for testing
         self.sample_data = StringIO("""Year,Term,YearTerm,Subject,Number,Name,Description,Credit Hours,Section Info,Degree Attributes,Schedule Information,CRN,Section,Status Code,Part of Term,Section Title,Section Credit Hours,Section Status,Enrollment Status,Type,Type Code,Start Time,End Time,Days of Week,Room,Building,Instructors
@@ -17,6 +18,8 @@ class TestMainFunctions(unittest.TestCase):
         print("test reading csv")
         self.assertEqual(data.iloc[0]["Name"], "Introduction to Programming")
 
+    # referenced - https://stackoverflow.com/questions/79258967/how-to-unit-test-import-error-of-a-module-that-is-actually-available-at-testime
+    # https://stackoverflow.com/questions/79257801/vscodes-testing-framework-breaks-when-referencing-a-file-in-a-tertiary-folder
     def test_preprocess_data(self):
         data = pd.read_csv(self.sample_data)
         processed_data = main.preprocess_data(data)
@@ -31,6 +34,7 @@ class TestMainFunctions(unittest.TestCase):
         print("test tfidf")
         self.assertEqual(tfidf_matrix.shape[0], len(processed_data))
 
+    # individual unit tests to test certain code functionality 
     def test_compute_bm25(self):
         data = pd.read_csv(self.sample_data)
         processed_data = main.preprocess_data(data)
@@ -49,6 +53,8 @@ class TestMainFunctions(unittest.TestCase):
         self.assertTrue(len(scores) > 0)
         self.assertGreaterEqual(scores[0], 0, "BM25 score should not be negative")
 
+    # testing return from open ai query 
+    # unable to use unittest mock - https://stackoverflow.com/questions/79223279/python-3-11-no-module-named-unittest-mock
     def test_openai_query(self):
         # This test assumes the OpenAI API key and response
         if self.openai_api_key != "test_api_key":
@@ -70,3 +76,4 @@ class TestMainFunctions(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+    
