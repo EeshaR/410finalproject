@@ -20,6 +20,7 @@ textarea {
     max-width: 500px;
 }
 #response {
+    display: none; /* Hide by default */
     margin-top: 20px;
     padding: 10px;
     border: 1px solid #ccc;
