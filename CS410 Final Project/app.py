@@ -126,34 +126,6 @@ def query():
     # If neither query nor prerequisite is provided
     return jsonify({'response': "How can I assist you today?"})
 
-
-# @app.route('/query', methods=['POST'])
-# def query():
-#     user_query = request.json['query']
-
-#     # Check for prerequisite filter
-#     if "prerequisite:" in user_query.lower():
-#         prerequisite_query = user_query.lower().split("prerequisite:")[-1].strip()
-#         filtered_data = filter_by_prerequisites(data, prerequisite_query)
-#         if filtered_data.empty:
-#             return jsonify({'response': f"No courses found with prerequisite '{prerequisite_query}'."})
-        
-#         # Limit the response to one or two course names
-#         courses = filtered_data["Name"].head(2).tolist()
-#         return jsonify({'response': f"Courses requiring '{prerequisite_query}' as a prerequisite: {', '.join(courses)}."})
-    
-#     # Retrieve results using BM25 and TF-IDF
-#     bm25_results = get_bm25_results(bm25, tokenized_corpus, user_query, data)
-#     tfidf_results = get_tfidf_results(vectorizer, tfidf_matrix, user_query, data)
-#     bm25_context = bm25_results.to_csv(index=False, header=False)
-#     tfidf_context = tfidf_results.to_csv(index=False, header=False)
-
-#     openai_api_key = "key"
-#     openai_response = query_openai(user_query, bm25_context, tfidf_context, openai_api_key)
-
-#     return jsonify({'response': openai_response})
-
-
 if __name__ == "__main__":
     app.run(debug=True)
 
