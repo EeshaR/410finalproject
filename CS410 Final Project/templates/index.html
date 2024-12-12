@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>UIUC Smart Course Finder</h1>
+    <!-- <h1>UIUC Smart Course Finder</h1>
     <form id="queryForm">
         <label for="query">Enter your course preferences:</label><br>
         <br>
@@ -16,7 +16,24 @@
             <button type="submit">Search</button>
         </div>
     </form>
-    <div id="response"></div>
+    <div id="response"></div> -->
+
+    <div class="container">
+        <!-- Input Form Section -->
+        <div class="form-section">
+            <h2>Enter Your Course Preferences</h2>
+            <form id="queryForm">
+                <textarea id="query" name="query" placeholder="E.g., a course on AI for Fall 2024"></textarea>
+                <button type="submit">Search</button>
+            </form>
+        </div>
+
+        <!-- Response Section -->
+        <div class="response-section">
+            <h2>Response</h2>
+            <div id="response"></div>
+        </div>
+    </div>
     
 
     <script>
@@ -27,6 +44,13 @@
 
             // Clear previous response
             const responseDiv = document.getElementById('response');
+
+            if (!queryInput) {
+                responseDiv.style.display = 'block'; // Show the response box
+                responseDiv.innerHTML = `<strong>Response:</strong> How can I assist you today?`;
+                return; // Exit the function
+            }
+
             responseDiv.style.display = 'block'; // Make it visible
             responseDiv.innerHTML = 'Processing your query...';
 
