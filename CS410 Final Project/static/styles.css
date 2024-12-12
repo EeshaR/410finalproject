@@ -19,6 +19,20 @@ body {
     padding: 20px;
 }
 
+.page-title {
+    position: absolute; /* Position it relative to the viewport */
+    top: 10px; /* Adjusted space from the top of the page */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center the element */
+    text-align: center; /* Center-align text */
+    font-size: 18px; /* Smaller font size */
+    font-weight: normal; /* Normal font weight for a clean look */
+    background-color: transparent; /* Remove the background color */
+    padding: 0; /* Remove unnecessary padding */
+    margin: 0; /* Ensure no extra margins */
+}
+
+
 .form-section, .response-section {
     flex: 1;
     max-width: 500px;

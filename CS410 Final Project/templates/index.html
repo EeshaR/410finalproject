@@ -18,8 +18,11 @@
     </form>
     <div id="response"></div> -->
 
+    <div class="page-title">
+        <h1>UIUC Smart Course Finder</h1>
+    </div>
+    
     <div class="container">
-        <!-- Input Form Section -->
         <div class="form-section">
             <h2>Enter Your Course Preferences</h2>
             <form id="queryForm">
@@ -47,7 +50,7 @@
 
             if (!queryInput) {
                 responseDiv.style.display = 'block'; // Show the response box
-                responseDiv.innerHTML = `<strong>Response:</strong> How can I assist you today?`;
+                responseDiv.innerHTML = `How can I assist you today?`;
                 return; // Exit the function
             }
 
@@ -66,7 +69,7 @@
 
                 if (response.ok) {
                     const data = await response.json();
-                    responseDiv.innerHTML = `<strong>Response:</strong> <p>${data.response}</p>`;
+                    responseDiv.innerHTML = `<p>${data.response}</p>`;
                 } else {
                     responseDiv.innerHTML = `<strong>Error:</strong> Unable to process the query.`;
                 }
@@ -77,4 +80,3 @@
     </script>
 </body>
 </html>
-
