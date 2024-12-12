@@ -14,3 +14,5 @@ Then install the required dependencies:
 
 To remove cache if you're running into any problems, you can run: `rm -rf __pycache__`
 Then run `python app.py` to run the application.
+
+MAKE SURE TO REPLACE openai_api_key WITH THE OPENAI API KEY. 
