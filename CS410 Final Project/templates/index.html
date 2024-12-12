@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Course Finder</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="page-title">
+        <h1>UIUC Smart Course Finder</h1>
+    </div>
+    
+    <div class="container">
+        <div class="form-section">
+            <h2>Enter Your Course Preferences</h2>
+            <form id="queryForm">
+                <textarea id="query" name="query" placeholder="What is an AI course offered in Fall 2024?"></textarea>
+                <h3>Additional Filters</h3>
+                <p>Prerequisites</p>
+                <input id="prerequisite" name="prerequisite" placeholder="MATH 241">
+                <b></b>
+                <button type="submit">Search</button>
+            </form>                    
+        </div>
+
+        <!-- Response Section -->
+        <div class="response-section">
+            <h2>Response</h2>
+            <div id="response"></div>
+        </div>
+    </div>
+    
+
+    <script>
+        document.getElementById('queryForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const queryInput = document.getElementById('query').value;
+            const prerequisiteInput = document.getElementById('prerequisite').value;
+
+            const responseDiv = document.getElementById('response');
+
+            responseDiv.style.display = 'block';
+            responseDiv.innerHTML = 'Processing your query...';
+
+            try {
+                const response = await fetch('/query', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query: queryInput + (prerequisiteInput ? ` prerequisite: ${prerequisiteInput}` : '') })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    responseDiv.innerHTML = `<p>${data.response}</p>`;
+                } else {
+                    responseDiv.innerHTML = `<strong>Error:</strong> Unable to process the query.`;
+                }
+            } catch (error) {
+                responseDiv.innerHTML = `<strong>Error:</strong> ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html>

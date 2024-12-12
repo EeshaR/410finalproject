@@ -1,4 +1,3 @@
-# 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
 import csv
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -90,13 +89,16 @@ def interactive_query(data, vectorizer, tfidf_matrix, bm25, openai_api_key):
 
 if __name__ == "__main__":
     import sys
+
+    file_path = "course-catalog.csv"
+    openai_api_key = "OUR_API_KEY"
     
-    if len(sys.argv) < 3:
-        print("Usage: python main.py <file_path> <openai_api_key>")
+    if len(sys.argv) != 1:
+        print("Usage: python main.py")
         sys.exit(1)
     
-    file_path = sys.argv[1]
-    openai_api_key = sys.argv[2]
+    # file_path = sys.argv[1]
+    # openai_api_key = sys.argv[2]
     
     # Process the CSV data
     data = preprocess_data(read_csv(file_path))

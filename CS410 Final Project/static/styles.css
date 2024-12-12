@@ -1,0 +1,126 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f9;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    max-width: 1200px;
+    width: 100%;
+    padding: 20px;
+}
+
+.page-title {
+    position: absolute; /* Position it relative to the viewport */
+    top: 10px; /* Adjusted space from the top of the page */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center the element */
+    text-align: center; /* Center-align text */
+    font-size: 18px; /* Smaller font size */
+    font-weight: normal; /* Normal font weight for a clean look */
+    background-color: transparent; /* Remove the background color */
+    padding: 0; /* Remove unnecessary padding */
+    margin: 0; /* Ensure no extra margins */
+}
+
+
+.form-section, .response-section {
+    flex: 1;
+    max-width: 500px;
+}
+
+.form-section {
+    text-align: left;
+}
+
+form {
+    display: flex; /* Enable flexbox layout */
+    flex-direction: column; /* Stack items vertically */
+    justify-content: center; /* Center items vertically (optional) */
+    align-items: center; /* Center items horizontally */
+    gap: 10px; /* Add space between form elements */
+}
+
+textarea {
+    width: 100%;
+    max-width: 100%;
+    height: 150px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    display: block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: white; /* White background */
+    color: black; /* Black text */
+    border: 2px solid black; /* Black border with a thickness of 2px */
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth hover effect */
+}
+
+button:hover {
+    background-color: black; /* Black background on hover */
+    color: white; /* White text on hover */
+}
+
+
+#response {
+    display: none; /* Hide initially */
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.response-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+
+/* body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #f4f4f9;
+}
+h1 {
+    color: #333;
+}
+form {
+    margin-bottom: 20px;
+}
+textarea {
+    width: 100%;
+    max-width: 500px;
+}
+#response {
+    display: none; 
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    max-width: 500px;
+} */

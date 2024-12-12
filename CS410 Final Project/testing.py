@@ -9,7 +9,7 @@ class TestMainFunctions(unittest.TestCase):
         self.sample_data = StringIO("""Year,Term,YearTerm,Subject,Number,Name,Description,Credit Hours,Section Info,Degree Attributes,Schedule Information,CRN,Section,Status Code,Part of Term,Section Title,Section Credit Hours,Section Status,Enrollment Status,Type,Type Code,Start Time,End Time,Days of Week,Room,Building,Instructors
 2024,Fall,2024FA,CS,101,Introduction to Programming,Learn programming basics.,3,Section 1,,,12345,001,A,Full,,3,Open,Available,Lecture,LEC,10:00 AM,11:00 AM,MWF,101,Engineering,Dr. Smith
 """)
-        self.openai_api_key = "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"  # Replace with a valid key if testing OpenAI API
+        self.openai_api_key = "OUR_API_KEY"  # Replace with a valid key if testing OpenAI API
 
     def test_read_csv(self):
         data = pd.read_csv(self.sample_data)
