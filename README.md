@@ -1,9 +1,5 @@
 # 410finalproject
 
-To remove cache if you're running into any problems, you can run: `rm -rf __pycache__`
-Then run `python app.py` to run the application.
-
-
 To activate the virtual environment:
 
 `python3 -m venv venv`
@@ -15,3 +11,6 @@ Then install the required dependencies:
 `pip install scikit-learn`
 `pip install rank_bm25`
 `pip install openai==0.28`
+
+To remove cache if you're running into any problems, you can run: `rm -rf __pycache__`
+Then run `python app.py` to run the application.

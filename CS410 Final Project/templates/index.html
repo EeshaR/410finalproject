@@ -7,17 +7,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <!-- <h1>UIUC Smart Course Finder</h1>
-    <form id="queryForm">
-        <label for="query">Enter your course preferences:</label><br>
-        <br>
-        <textarea id="query" name="query" rows="4" cols="50" placeholder="E.g., a course on AI for Fall 2024"></textarea><br><br>
-        <div style="text-align: center;">
-            <button type="submit">Search</button>
-        </div>
-    </form>
-    <div id="response"></div> -->
-
     <div class="page-title">
         <h1>UIUC Smart Course Finder</h1>
     </div>
@@ -27,8 +16,12 @@
             <h2>Enter Your Course Preferences</h2>
             <form id="queryForm">
                 <textarea id="query" name="query" placeholder="E.g., a course on AI for Fall 2024"></textarea>
+                <h3>Additional Filters</h3>
+                <p>Prerequisites</p>
+                <input id="prerequisite" name="prerequisite" placeholder="E.g., MATH 241">
+                <b></b>
                 <button type="submit">Search</button>
-            </form>
+            </form>                    
         </div>
 
         <!-- Response Section -->
@@ -41,30 +34,27 @@
 
     <script>
         document.getElementById('queryForm').addEventListener('submit', async function(event) {
-            event.preventDefault(); // Prevent the default form submission behavior
+            event.preventDefault();
 
             const queryInput = document.getElementById('query').value;
+            const prerequisiteInput = document.getElementById('prerequisite').value;
 
-            // Clear previous response
             const responseDiv = document.getElementById('response');
 
             if (!queryInput) {
-                responseDiv.style.display = 'block'; // Show the response box
+                responseDiv.style.display = 'block';
                 responseDiv.innerHTML = `How can I assist you today?`;
-                return; // Exit the function
+                return;
             }
 
-            responseDiv.style.display = 'block'; // Make it visible
+            responseDiv.style.display = 'block';
             responseDiv.innerHTML = 'Processing your query...';
 
             try {
-                // Send the query to the backend
                 const response = await fetch('/query', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ query: queryInput })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query: queryInput + (prerequisiteInput ? ` prerequisite: ${prerequisiteInput}` : '') })
                 });
 
                 if (response.ok) {
