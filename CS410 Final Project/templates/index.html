@@ -41,7 +41,7 @@
 
             const responseDiv = document.getElementById('response');
 
-            if (!queryInput) {
+            if (!queryInput && !prerequisiteInput) {
                 responseDiv.style.display = 'block';
                 responseDiv.innerHTML = `How can I assist you today?`;
                 return;
