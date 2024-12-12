@@ -2,9 +2,12 @@
 
 ## How to run the project: 
 
-To activate the virtual environment:
+To create the virtual environment:
 
 `python3 -m venv venv`
+
+To activate the virtual environment:
+
 `source venv/bin/activate`
 
 Then install the required dependencies:
@@ -14,10 +17,10 @@ Then install the required dependencies:
 `pip install rank_bm25`
 `pip install openai==0.28`
 
-To remove cache if you're running into any problems, you can run: `rm -rf __pycache__`
+To remove cache if you're running into any problems, you can run: `rm -rf __pycache__`.
 Then run `python app.py` to run the application.
 
-MAKE SURE TO REPLACE openai_api_key WITH THE OPENAI API KEY. 
+Make sure to replace `openai_api_key` with the actual OpenAI API key so that the user can query the LLM. 
 
 ## Documentation: 
 User standpoint: The user opens our easy-to-use html site, types in a query of their choice regarding uiuc course - about what to take, pre-reqs, credits, relevancy. 
