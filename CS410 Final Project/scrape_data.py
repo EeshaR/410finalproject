@@ -7,6 +7,7 @@ BASE_URL = "https://courses.illinois.edu"
 COURSES_ENDPOINT = f"{BASE_URL}/schedule/DEFAULT/DEFAULT"
 
 # Simulate scraping data from the website
+# referenced - https://courses.illinois.edu/cisdocs/explorer
 def scrape_course_catalog():
     print("Scraping course catalog from UIUC Course Explorer...")
 
@@ -16,6 +17,7 @@ def scrape_course_catalog():
         print(f"Failed to fetch data: {response.status_code}")
         return []
 
+    # referenced - https://stackoverflow.com/questions/2081586/web-scraping-with-python
     soup = BeautifulSoup(response.content, 'html.parser')
 
     # Simulate parsing the data (adjust selectors to match actual site structure)
@@ -29,7 +31,7 @@ def scrape_course_catalog():
         description = row.find("div", class_="description").text.strip()
         schedule = row.find("span", class_="schedule").text.strip()
         location = row.find("span", class_="location").text.strip()
-
+        # referenced - https://github.com/shanktt/UIUC-Course-Explorer-Scraper
         courses.append({
             "Course Code": course_code,
             "Course Title": course_title,
