@@ -37,7 +37,7 @@ This way when a query is asked, we can retrieve the current and correct informat
 We had fellow students review our tool and they mentioned this tool would be useful for sorting and understanding information. The tool also includes illustrations to help convey a more clearer understanding for users who preferred to visualize the data (this was direct feedback we recieved from our testers and therefore added it to the html aspect). 
 Here is a walk through of the functionality and purpose of each file 
 
-- app.py: This code creates a Flask web application that allows users to search a course catalog using text-based queries and prerequisites. It employs text preprocessing, TF-IDF, and BM25 for ranking courses by relevance to the user's query, integrates OpenAI's API for refined responses, and provides a web interface for user interaction.
+- app.py: This code creates a Flask web application that allows users to search a course catalog using text-based queries and prerequisites. It employs text preprocessing, TF-IDF, and BM25 for ranking courses by relevance to the user's query, integrates OpenAI's API for refined responses, and provides a web interface for user interaction. We also include a visualization feature for users to quickly understand their results. 
   
 - main.py: This script implements a command-line tool for searching a course catalog using natural language queries. It preprocesses the course data, applies TF-IDF and BM25 models for ranking course information, and integrates OpenAI's API to generate comprehensive answers based on the most relevant course context. Users can interactively query the catalog, and the system provides ranked results prioritized by relevance.
 
