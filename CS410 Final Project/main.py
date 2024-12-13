@@ -93,14 +93,11 @@ if __name__ == "__main__":
     import sys
 
     file_path = "course-catalog.csv"
-    openai_api_key = "OUR_API_KEY" # insert our api key into this 
+    openai_api_key = "OUR_API_KEY"
     
     if len(sys.argv) != 1:
         print("Usage: python main.py")
         sys.exit(1)
-    
-    # file_path = sys.argv[1]
-    # openai_api_key = sys.argv[2]
     
     # Process the CSV data
     data = preprocess_data(read_csv(file_path))
