@@ -34,7 +34,7 @@ The response is then generated for them in a timely fashion. They are free to ma
 Backend standpoint: We begin scraping the course explorer page for current, up to date information about courses offered. Then we save and parse this data into a csv file. 
 Then we use a series of different classification and retrieval methods (bm25, open ai, tdidf) to understand the content of the csv. 
 This way when a query is asked, we can retrieve the current and correct information. Finally, we created a user-friendly screen to help enhance the experience. 
-We had fellow students review our tool and they mentioned this tool would be useful for sorting and understanding information.
+We had fellow students review our tool and they mentioned this tool would be useful for sorting and understanding information. The tool also includes illustrations to help convey a more clearer understand for users who preffered to visualize the data (this was direct feedback we recieved from our testers). 
 Here is a walk through of the functionality and purpose of each file 
 
 - app.py: This code creates a Flask web application that allows users to search a course catalog using text-based queries and prerequisites. It employs text preprocessing, TF-IDF, and BM25 for ranking courses by relevance to the user's query, integrates OpenAI's API for refined responses, and provides a web interface for user interaction.
