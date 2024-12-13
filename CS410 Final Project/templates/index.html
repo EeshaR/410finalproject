@@ -14,6 +14,7 @@
     </div>
     
     <div class="container">
+        <!-- Query  -->
         <div class="form-section">
             <h2>Enter Your Course Preferences</h2>
             <form id="queryForm">
@@ -25,13 +26,13 @@
             </form>                    
         </div>
 
-        <!-- Response Section -->
+        <!-- Response -->
         <div class="response-section">
             <h2>Response</h2>
             <div id="response"></div>
         </div>
 
-        <!-- Graph Section -->
+        <!-- Graph -->
         <div class="graph-section">
             <h2>Course Visualization</h2>
             <div id="cy" style="width: 600px; height: 400px; margin: 0 auto; border: 1px solid #ccc;"></div>
@@ -61,10 +62,8 @@
                 if (response.ok) {
                     const data = await response.json();
 
-                    // Display the textual response
                     responseDiv.innerHTML = `<p>${data.response}</p>`;
 
-                    // Clear and render the graph
                     graphContainer.innerHTML = '';
                     const cy = cytoscape({
                         container: graphContainer,
@@ -77,7 +76,7 @@
                             }))
                         ],
                         layout: {
-                            name: 'concentric', // Change layout to prevent UI overlap
+                            name: 'concentric', 
                             concentric: node => node.id() === 'course' ? 2 : 1,
                             levelWidth: () => 1
                         },
@@ -91,7 +90,7 @@
                                     'color': '#fff',
                                     'text-outline-width': 2,
                                     'text-outline-color': '#007BFF',
-                                    'font-size': '14px' // Increased font size for readability
+                                    'font-size': '14px' 
                                 }
                             },
                             {
@@ -106,14 +105,13 @@
                         ]
                     });
 
-                    // Add edges between nodes
                     cy.add({ data: { source: 'course', target: 'desc' } });
                     cy.add({ data: { source: 'course', target: 'prereq' } });
                     data.graphData.related_courses.forEach((_, i) => {
                         cy.add({ data: { source: 'course', target: `related${i}` } });
                     });
 
-                    cy.fit(); // Automatically fit the graph within the container
+                    cy.fit();
                 } else {
                     responseDiv.innerHTML = `<strong>Error:</strong> Unable to process the query.`;
                 }
