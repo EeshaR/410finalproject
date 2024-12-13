@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Course Finder</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.21.1/cytoscape.min.js"></script>
 </head>
 <body>
     <div class="page-title">
@@ -19,7 +20,6 @@
                 <h3>Additional Filters</h3>
                 <p>Prerequisites</p>
                 <input id="prerequisite" name="prerequisite" placeholder="MATH 241">
-                <b></b>
                 <button type="submit">Search</button>
             </form>                    
         </div>
@@ -29,8 +29,13 @@
             <h2>Response</h2>
             <div id="response"></div>
         </div>
+
+        <!-- Graph Section -->
+        <div class="graph-section">
+            <h2>Course Visualization</h2>
+            <div id="cy" style="width: 600px; height: 400px; margin: 0 auto; border: 1px solid #ccc;"></div>
+        </div>
     </div>
-    
 
     <script>
         document.getElementById('queryForm').addEventListener('submit', async function(event) {
@@ -40,6 +45,7 @@
             const prerequisiteInput = document.getElementById('prerequisite').value;
 
             const responseDiv = document.getElementById('response');
+            const graphContainer = document.getElementById('cy');
 
             responseDiv.style.display = 'block';
             responseDiv.innerHTML = 'Processing your query...';
@@ -53,7 +59,60 @@
 
                 if (response.ok) {
                     const data = await response.json();
+
+                    // Display the textual response
                     responseDiv.innerHTML = `<p>${data.response}</p>`;
+
+                    // Clear and render the graph
+                    graphContainer.innerHTML = '';
+                    const cy = cytoscape({
+                        container: graphContainer,
+                        elements: [
+                            { data: { id: 'course', label: data.graphData.name } },
+                            { data: { id: 'desc', label: `Description: ${data.graphData.description}` } },
+                            { data: { id: 'prereq', label: `Prerequisites: ${data.graphData.prerequisites}` } },
+                            ...data.graphData.related_courses.map((course, i) => ({
+                                data: { id: `related${i}`, label: course }
+                            }))
+                        ],
+                        layout: {
+                            name: 'concentric', // Change layout to prevent UI overlap
+                            concentric: node => node.id() === 'course' ? 2 : 1,
+                            levelWidth: () => 1
+                        },
+                        style: [
+                            {
+                                selector: 'node',
+                                style: {
+                                    'background-color': '#007BFF',
+                                    'label': 'data(label)',
+                                    'text-valign': 'center',
+                                    'color': '#fff',
+                                    'text-outline-width': 2,
+                                    'text-outline-color': '#007BFF',
+                                    'font-size': '14px' // Increased font size for readability
+                                }
+                            },
+                            {
+                                selector: 'edge',
+                                style: {
+                                    'width': 2,
+                                    'line-color': '#ccc',
+                                    'target-arrow-color': '#ccc',
+                                    'target-arrow-shape': 'triangle'
+                                }
+                            }
+                        ]
+                    });
+
+                    // Add edges between nodes
+                    cy.add({ data: { source: 'course', target: 'desc' } });
+                    cy.add({ data: { source: 'course', target: 'prereq' } });
+                    data.graphData.related_courses.forEach((_, i) => {
+                        cy.add({ data: { source: 'course', target: `related${i}` } });
+                    });
+
+                    cy.fit(); // Automatically fit the graph within the container
                 } else {
                     responseDiv.innerHTML = `<strong>Error:</strong> Unable to process the query.`;
                 }
